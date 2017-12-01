@@ -45,43 +45,72 @@ def normalize_dataset(dataset, minmax):
 start_time = time.time()
 
 # testdataset
-testdataset = Read_file('Wisconsin_SVM_testdataset.csv')
-test_target= Read_file('SVM_testdataset_target.csv')
+testdataset = Read_file('SVM_Input.csv')
+test_target= Read_file('SVM_Target.csv')
 
 
-# change string column values to float
-for i in range(len(testdataset[0])):
-    str_column_to_int(testdataset, i)
-runs = [0]*30
+
 w = 0
 r = 1
-for j in range(len(runs)):
-    #train Network
-    r =  r + 100
-    if (r + 200) > 699:
-        r = w
-        w += 30
-    traindataset = [testdataset[i] for i in range (r, r + 200)]
-    train_target = [test_target[i] for i in range (r, r + 200)]
-    # clf = svm.SVC(decision_function_shape='ovo')
-    clf = svm.SVC(C=1.3,max_iter=40 ,decision_function_shape='ovo')
-    clf.fit(traindataset, train_target)
 
-    #test network
-    count = 0
-    total  = 0
-    for i in range(0,len(testdataset)):
-        total +=1
-        temp = clf.predict([testdataset[i]])
-        if temp == test_target[i]:
-            count+=1
-    accuracy = count*100/total
-    print('Accuracy: %s' % accuracy)
-    runs[j] = accuracy
+traindataset = testdataset[0:10000]
+train_target = test_target[0:10000]
+# clf = svm.SVC(decision_function_shape='ovo')
+clf = svm.SVC(C=1.3,decision_function_shape='ovo')
+clf.fit(traindataset, train_target)
 
-mean = sum(runs) / len(runs)
-print("No of Iteration: 40 ", )
-print("Mean_Accuracy: {}".format(mean))
-print("Standard_Deviation: {}".format(np.std(runs, 0)))
-time_taken = time.time() - start_time
-print("total_time : {}".format(time_taken))
+#test network
+count = 0
+total  = 0
+for i in range(0,len(testdataset)):
+    total +=1
+    temp = clf.predict([testdataset[i]])
+    if temp == test_target[i]:
+        count+=1
+accuracy = count*100/total
+print('Accuracy: %s' % accuracy)
+
+
+
+
+
+
+
+
+#
+# # change string column values to float
+# for i in range(len(testdataset[0])):
+#     str_column_to_int(testdataset, i)
+# runs = [0]*30
+# w = 0
+# r = 1
+# for j in range(len(runs)):
+#     #train Network
+#     r =  r + 100
+#     if (r + 200) > 699:
+#         r = w
+#         w += 30
+#     traindataset = [testdataset[i] for i in range (r, r + 200)]
+#     train_target = [test_target[i] for i in range (r, r + 200)]
+#     # clf = svm.SVC(decision_function_shape='ovo')
+#     clf = svm.SVC(C=1.3,max_iter=40 ,decision_function_shape='ovo')
+#     clf.fit(traindataset, train_target)
+#
+#     #test network
+#     count = 0
+#     total  = 0
+#     for i in range(0,len(testdataset)):
+#         total +=1
+#         temp = clf.predict([testdataset[i]])
+#         if temp == test_target[i]:
+#             count+=1
+#     accuracy = count*100/total
+#     print('Accuracy: %s' % accuracy)
+#     runs[j] = accuracy
+#
+# mean = sum(runs) / len(runs)
+# print("No of Iteration: 40 ", )
+# print("Mean_Accuracy: {}".format(mean))
+# print("Standard_Deviation: {}".format(np.std(runs, 0)))
+# time_taken = time.time() - start_time
+# print("total_time : {}".format(time_taken))

@@ -9,12 +9,9 @@ data_source = 'yahoo'
 start_date = '2010-01-01'
 end_date = '2016-12-31'
 
-symbols = ['^IXIC']
+symbols = ['BABA']
 # symbols = ['AAPL','AMZN','BABA','MSFT','GOOG','IBM','ORCL','INTC','HPQ','LNVGY']
 
 
 for i in symbols:
     data.DataReader(i,'yahoo',start_date,end_date).to_csv(i+'.csv')
-
-
-
