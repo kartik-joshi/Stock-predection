@@ -50,23 +50,24 @@ def normalize_dataset(dataset, minmax):
 
 
 # testdataset
-dataset = Read_file('Input_Dataset.csv')
-x = int(2*len(dataset)/3)
-traindataset = dataset[0:x]
-testdataset = dataset[x:len(dataset)]
+testdataset= Read_file('Input_Dataset.csv')
+# dataset = Read_file('Input_Dataset.csv')
+# x = int(2*len(dataset)/3)
+# traindataset = dataset[0:x]
+# testdataset = dataset[x:len(dataset)]
 
 
 
 
-
-for i in range(len(traindataset[0]) - 1):
-    str_column_to_int(traindataset, i)
-# # convert last column to integers
-str_column_to_int(traindataset, len(traindataset[0]) - 1)
-
-#normalize dataset to get better result
-minmax = dataset_minmax(traindataset)
-normalize_dataset(traindataset, minmax)
+# #
+# for i in range(len(traindataset[0]) - 1):
+#     str_column_to_int(traindataset, i)
+# # # convert last column to integers
+# str_column_to_int(traindataset, len(traindataset[0]) - 1)
+#
+# #normalize dataset to get better result
+# minmax = dataset_minmax(traindataset)
+# normalize_dataset(traindataset, minmax)
 
 for i in range(len(testdataset[0]) - 1):
     str_column_to_int(testdataset, i)
@@ -188,11 +189,11 @@ runs = [0]*30
 for i in range(len(runs)):
     # # learning_rate = learning_rate + 0.05
     # # n_epoch = n_epoch + 4
-    # r =  r + 100
-    # if (r + 200) > 699:
-    #     r = w
-    #     w += 30
-    traindataset = [testdataset[i] for i in range(r, r + 200)]
+    r =  r + 1000
+    if (r + 10000) > 15800:
+        r = w
+        w += 300
+    traindataset = [testdataset[i] for i in range(r, r + 10000)]
     network1 = init_nw(n_inputs, n_hidden, n_outputs)
     train_network(network1, traindataset, learning_rate, n_epoch, n_outputs)
     total = 0
@@ -215,46 +216,3 @@ print("Standard_Deviation: {}".format(np.std(runs, 0)))
 time_taken = time.time() - start_time
 print("total_time : {}".format(time_taken))
 
-
-
-
-#
-# start_time = time.time()
-# n_hidden = 6
-# n_inputs = len(testdataset[0]) - 1
-# n_outputs = 2
-# learning_rate = 0.5
-# n_epoch = 30
-# w = 0
-# r = 1
-# print('Backprop aglo')
-# runs = [0]*30
-# for i in range(len(runs)):
-#     # learning_rate = learning_rate + 0.05
-#     # n_epoch = n_epoch + 4
-#     r =  r + 100
-#     if (r + 200) > 699:
-#         r = w
-#         w += 30
-#     traindataset = [testdataset[i] for i in range(r, r + 200)]
-#     network1 = init_nw(n_inputs, n_hidden, n_outputs)
-#     train_network(network1, traindataset, learning_rate, n_epoch, n_outputs)
-#     total = 0
-#     misclassification = 0
-#     total_missclassification_cost = 0.0
-#     for row in testdataset:
-#         total = total + 1
-#         prediction = predict(network1, row)
-#         if (row[-1] != prediction):
-#             misclassification = misclassification + 1
-#     Accuracy =(total - misclassification)*100/total
-#     print('Accuracy:=%f' %(Accuracy))
-#     runs[i] = Accuracy
-#
-# mean = sum(runs)/len(runs)
-# print("n_epoch: {}".format(n_epoch))
-# print("learning rate: {}".format(learning_rate))
-# print("Mean_Accuracy: {}".format(mean))
-# print("Standard_Deviation: {}".format(np.std(runs, 0)))
-# time_taken = time.time() - start_time
-# print("total_time : {}".format(time_taken))
