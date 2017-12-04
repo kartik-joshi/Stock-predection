@@ -62,7 +62,7 @@ for j in range(len(runs)):
         w += 300
     traindataset = [testdataset[i] for i in range(r, r + 10000)]
     train_target = [test_target[i] for i in range(r, r + 10000)]
-    clf = svm.SVC(C=1.3, decision_function_shape='ovo')
+    clf = svm.SVC(kernel="rbf", decision_function_shape='ovo')
     clf.fit(traindataset, train_target)
 
     # test network
